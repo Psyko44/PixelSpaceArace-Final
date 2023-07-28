@@ -56,7 +56,7 @@ $(document).ready(function () {
     e.preventDefault();
     const id = $(this).find(".addToCartButton").data("id");
     $.ajax({
-      url: "/product/addToCartConsole/" + id,
+      url: "/product/addToCartById/" + id,
       type: "POST",
       success: function (data) {
         alert("Produit ajouté au panier");

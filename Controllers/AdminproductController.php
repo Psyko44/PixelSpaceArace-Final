@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ConsolesModel;
 use App\Models\GameModel;
+use App\Models\ProductsModel;
 use App\Core\Db;
 
 class AdminProductController extends Controller
@@ -25,10 +26,10 @@ class AdminProductController extends Controller
             $this->renderError('error');
             return;
         }
-        $consolesModel = new ConsolesModel();
-        $gameModel = new GameModel();
-        $consoles = $consolesModel->findAll();
-        $games = $gameModel->findAll();
+        $consolesModel = new ProductsModel();
+        $gameModel = new ProductsModel();
+        $consoles = $consolesModel->findConsole();
+        $games = $gameModel->findGame();
         $this->renderAdmin('adminProduct', compact('consoles', 'games'), 'adminT');
     }
     /**
@@ -40,7 +41,7 @@ class AdminProductController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $consoleModel = new ConsolesModel();
+            $consoleModel = new ProductsModel();
             $name = $_POST['name'];
             $description = $_POST['description'];
             $price = $_POST['price'];
@@ -66,7 +67,7 @@ class AdminProductController extends Controller
      */
     public function updateConsole($id)
     {
-        $consolesModel = new ConsolesModel();
+        $consolesModel = new ProductsModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $description = $_POST['description'];
@@ -92,8 +93,8 @@ class AdminProductController extends Controller
      */
     public function deleteConsole($id)
     {
-        $consolesModel = new ConsolesModel();
-        $consolesModel->deleteConsole($id);
+        $consolesModel = new ProductsModel();
+        $consolesModel->deleteProduct($id);
         if (isset($_POST['submit'])) {
             $_SESSION['success_message'] = 'La console a été supprimée avec succès';
         }
@@ -109,7 +110,7 @@ class AdminProductController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $gameModel = new GameModel();
+            $gameModel = new ProductsModel();
             $name = $_POST['name'];
             $description = $_POST['description'];
             $price = $_POST['price'];
@@ -137,7 +138,7 @@ class AdminProductController extends Controller
      */
     public function updateGame($id)
     {
-        $gameModel = new GameModel();
+        $gameModel = new ProductsModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $description = $_POST['description'];
@@ -163,8 +164,8 @@ class AdminProductController extends Controller
      */
     public function deleteGame($id)
     {
-        $gameModel = new GameModel();
-        $gameModel->deleteGame($id);
+        $gameModel = new ProductsModel();
+        $gameModel->deleteProduct($id);
         if (isset($_POST['submit'])) {
             $_SESSION['success_message'] = 'Le Jeux à été supprimé avec succès';
         }

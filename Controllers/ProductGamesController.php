@@ -2,16 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\ConsolesModel;
-use App\Models\GameModel;
+
+use App\Models\ProductsModel;
 use App\Controllers\CartController;
+use App\Core\Db;
 
 class ProductGamesController extends Controller
 {
     public function productGames(int $id)
     {
-        $productGame = new GameModel;
-        $Games = $productGame->find($id);
+        $productGame = new ProductsModel();
+        $Games = $productGame->findGameById($id);
         if (!$Games) {
             http_response_code(404);
             exit;
@@ -26,17 +27,19 @@ class ProductGamesController extends Controller
      * @param integer $id
      * @return void
      */
-    public function addToCartGame(int $id)
+    public function addToCartById(int $productId)
     {
-        $productModel = new GameModel;
-        $product = $productModel->find($id);
-        if ($product !== null) {
-            $product = (array) $product;
-            $cart = new CartController();
-            $cart->add($product);
-        } else {
-            http_response_code(404);
-            exit;
+        $db = Db::getInstance();
+        $productModel = new ProductsModel($db);
+        $product = $productModel->findById($productId);
+
+        if ($product === null) {
+            // Handle the error. The product does not exist.
+            return;
         }
+        $product = get_object_vars($product);
+
+        $cartController = new CartController();
+        $cartController->add($product);
     }
 }

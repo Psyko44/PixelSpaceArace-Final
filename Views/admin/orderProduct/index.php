@@ -30,10 +30,10 @@
                                     <?= $order['user_id'] ?>
                                 </td>
                                 <td>
-                                    <?= $order['username'] ?>
+                                    <?= $order['user_name'] ?>
                                 </td>
                                 <td>
-                                    <?= $order['name'] ?>
+                                    <?= $order['product_name'] ?>
                                 </td>
                                 <td>
                                     <?= $order['quantity'] ?>

@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\ConsolesModel;
-use App\Models\GameModel;
+use App\Models\ProductsModel;
+
 
 class RetroSpaceController extends Controller
 {
@@ -14,10 +14,9 @@ class RetroSpaceController extends Controller
      */
     public function index()
     {
-        $consolesModel = new ConsolesModel;
-        $videoModel = new GameModel;
-        $Consoles = $consolesModel->findAll();
-        $Games = $videoModel->findAll();
+        $productsModel = new ProductsModel;
+        $Consoles = $productsModel->findConsole();
+        $Games = $productsModel->findGame();
         $this->title = "Retrospace";
         $this->render('retrospace/index', compact('Consoles', 'Games'), 'default');
     }

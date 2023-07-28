@@ -120,7 +120,7 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($users as $user) : ?>
-                                        <form action="/user/updateUser" method="post">
+                                        <form class="text-center" action="/user/updateUser" method="post">
                                             <tr>
                                                 <td>
                                                     <input type="text" name="username" value="<?= $user->getUsername(); ?>">

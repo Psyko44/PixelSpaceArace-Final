@@ -35,7 +35,7 @@
             <table class="history">
                 <thead>
                     <tr>
-                        <th>Numéro de commande</th>
+                        <th>Référence produit</th>
                         <th>Produit</th>
                         <th>Quantité</th>
                         <th>Prix</th>
@@ -44,19 +44,22 @@
                 </thead>
                 <tbody>
                     <?php $orders = $orders ?? []; ?>
-                    <?php $totalGeneral = 0;
-                    ?>
+                    <?php $totalGeneral = 0; ?>
                     <?php foreach ($orders as $order) : ?>
                         <?php
-                        $total = $order->quantity * $order->price;
+                        $total = $order->order_quantity * $order->price; // Changed here
                         $totalGeneral += $total;
                         ?>
                         <tr>
                             <td><?= $order->id ?></td>
                             <td><?= $order->name ?></td>
-                            <td><?= $order->quantity ?></td>
+                            <td><?= $order->order_quantity ?></td> <!-- Changed here -->
                             <td><?= $order->price ?> €</td>
-                            <td><?= $order->created_at ?></td>
+                            <td><?php
+                                $datetime = new \DateTime($order->created_at);
+                                $datetime->setTimezone(new \DateTimeZone('Europe/Paris'));
+                                echo $datetime->format('d-m-Y H:i:s');
+                                ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -68,6 +71,7 @@
                     </tr>
                 </tfoot>
             </table>
+
         </section>
     </main>
 <?php else : ?>

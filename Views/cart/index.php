@@ -1,5 +1,6 @@
 <main class="base">
     <div class="mainTop">
+
         <div class="titleProfil"><img class="picProfil" src="/ressources/svg/panier.svg" alt=""></div>
         <form action="/cart" method="POST">
             <section>
@@ -15,10 +16,10 @@
                                     <img src="/uploads/<?= $item['picture'] ?>" alt="Product Image">
                                 </div>
                                 <div class="cart-item-details">
-                                    <h2 class="product-name"><?= $item['name'] ?></h2>
-                                    <p class="product-price"><?= $item['price'] ?> €</p>
+                                    <h2 class="product-name"><?= isset($item['name']) ? $item['name'] : '' ?></h2>
+                                    <p class="product-price"><?= isset($item['price']) ? $item['price'] : '0' ?> €</p>
                                     <label for="quantity">Quantité</label>
-                                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                                    <input type="number" id="quantity" name="quantity" min="1" value="<?= $item['quantity'] ?>" required>
                                     <p class="product-total"><?= $item['price'] * $item['quantity'] ?> €</p>
                                 </div>
                                 <div class="cart-item-actions">

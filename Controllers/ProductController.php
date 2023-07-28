@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\ConsolesModel;
-use App\Models\GameModel;
+use App\Models\ProductsModel;
 use App\Controllers\CartController;
+use App\Core\Db;
 
 
 class ProductController extends Controller
 {
     public function product(int $id)
     {
-        $productModel = new ConsolesModel;
-        $Consoles = $productModel->find($id);
+        $productModel = new ProductsModel;
+        $Consoles = $productModel->findConsoleById($id);
         $this->title = "Consoles";
         $this->render('retrospace/product/index', compact('Consoles'), 'default');
         exit;
@@ -24,15 +24,21 @@ class ProductController extends Controller
      * @param integer $id
      * @return void
      */
-    public function addToCartConsole(int $id)
+    public function addToCartById(int $productId)
     {
-        $productModel = new ConsolesModel;
-        $product = $productModel->find($id);
-        if ($product !== null) {
-            $product = (array) $product;
-            $cart = new CartController();
-            $cart->add($product);
-        } else {
+        $db = Db::getInstance();
+        $productModel = new ProductsModel($db);
+        $product = $productModel->findById($productId);
+
+        if ($product === null) {
+            // Handle the error. The product does not exist.
+            return;
         }
+
+        // Convert the product object to an array
+        $product = get_object_vars($product);
+
+        $cartController = new CartController();
+        $cartController->add($product);
     }
 }
